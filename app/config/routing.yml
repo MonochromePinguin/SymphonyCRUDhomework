@@ -1,0 +1,16 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+
+# simple test
+planeModel_index:
+    path:     /modèles
+    defaults: { _controller: AppBundle:PlaneModel:index }
+
+planeModel_show:
+    path:     /modèles/id
+    defaults: { _controller: AppBundle:PlaneModel:show }
+    requirements:
+        id: '\d+'
+
