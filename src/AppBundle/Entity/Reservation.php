@@ -22,6 +22,20 @@ class Reservation
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User",
+     *                inversedBy="reservations"
+     * )
+     */
+    private $passenger;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight",
+     *                inversedBy="reservations"
+     * )
+     */
+    private $flight;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="nbReservedSeats", type="smallint")
@@ -41,6 +55,7 @@ class Reservation
      * @ORM\Column(name="wasDone", type="boolean")
      */
     private $wasDone;
+
 
 
     /**
@@ -124,5 +139,59 @@ class Reservation
     {
         return $this->wasDone;
     }
-}
 
+    /**
+     * Set passenger.
+     *
+     * @param \AppBundle\Entity\User|null $passenger
+     *
+     * @return Reservation
+     */
+    public function setPassenger(\AppBundle\Entity\User $passenger = null)
+    {
+        $this->passenger = $passenger;
+
+        return $this;
+    }
+
+    /**
+     * Get passenger.
+     *
+     * @return \AppBundle\Entity\User|null
+     */
+    public function getPassenger()
+    {
+        return $this->passenger;
+    }
+
+    /**
+     * Set flight.
+     *
+     * @param \AppBundle\Entity\Flight|null $flight
+     *
+     * @return Reservation
+     */
+    public function setFlight(\AppBundle\Entity\Flight $flight = null)
+    {
+        $this->flight = $flight;
+
+        return $this;
+    }
+
+    /**
+     * Get flight.
+     *
+     * @return \AppBundle\Entity\Flight|null
+     */
+    public function getFlight()
+    {
+        return $this->flight;
+    }
+
+    ## CUSTOM FUNCTION ##
+    public function __toString()
+    {
+        return strval($this->id);
+    }
+
+}

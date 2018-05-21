@@ -58,6 +58,18 @@ class Site
 
 
     /**
+     * @ORM\OneToMany( targetEntity="AppBundle\Entity\Flight", mappedBy="departure")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $departures;
+
+    /**
+     * @ORM\OneToMany( targetEntity="AppBundle\Entity\Flight", mappedBy="arrival")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $arrivals;
+
+    /**
      * Get id
      *
      * @return int
@@ -186,5 +198,90 @@ class Site
     {
         return $this->city;
     }
-}
 
+    ### CUSTOM FUNCTION
+    public function __toString()
+    {
+        return $this->name . ': ' . $this.$this->icao . ' at ' . $this->latitude . '/' . $this->longitude;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->departures = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add departure.
+     *
+     * @param \AppBundle\Entity\Flight $departure
+     *
+     * @return Site
+     */
+    public function addDeparture(\AppBundle\Entity\Flight $departure)
+    {
+        $this->departures[] = $departure;
+
+        return $this;
+    }
+
+    /**
+     * Remove departure.
+     *
+     * @param \AppBundle\Entity\Flight $departure
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeDeparture(\AppBundle\Entity\Flight $departure)
+    {
+        return $this->departures->removeElement($departure);
+    }
+
+    /**
+     * Get departures.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDepartures()
+    {
+        return $this->departures;
+    }
+
+    /**
+     * Add arrival.
+     *
+     * @param \AppBundle\Entity\Flight $arrival
+     *
+     * @return Site
+     */
+    public function addArrival(\AppBundle\Entity\Flight $arrival)
+    {
+        $this->arrivals[] = $arrival;
+
+        return $this;
+    }
+
+    /**
+     * Remove arrival.
+     *
+     * @param \AppBundle\Entity\Flight $arrival
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeArrival(\AppBundle\Entity\Flight $arrival)
+    {
+        return $this->arrivals->removeElement($arrival);
+    }
+
+    /**
+     * Get arrivals.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArrivals()
+    {
+        return $this->arrivals;
+    }
+}
