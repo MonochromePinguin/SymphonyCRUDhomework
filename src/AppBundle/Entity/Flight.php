@@ -22,6 +22,38 @@ class Flight
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Site",
+     *                inversedBy="departures")
+     * @ORM\JoinColumn(nullable=false, name="departure_site_id")
+     */
+    private $departure;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Site",
+     *                inversedBy="arrivals")
+     * @ORM\JoinColumn(name="arrival_site_id", nullable=false)
+     */
+    private $arrival;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $pilot;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PlaneModel",
+     *                inversedBy="flights")
+     */
+    private $plane;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Reservation",
+     *                mappedBy="flight"
+     * )
+     */
+    private $reservations;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="nbFreeSeats", type="smallint")
@@ -63,6 +95,12 @@ class Flight
      */
     private $wasDone;
 
+
+    ## CUSTOM FUNCTION ##
+    public function __toString()
+    {
+        return 'departure: ' . $this->departure . ', arrival: ' . $this->arrival;
+    }
 
     /**
      * Get id
@@ -217,5 +255,143 @@ class Flight
     {
         return $this->wasDone;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->reservations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Set departure.
+     *
+     * @param \AppBundle\Entity\Site $departure
+     *
+     * @return Flight
+     */
+    public function setDeparture(\AppBundle\Entity\Site $departure)
+    {
+        $this->departure = $departure;
+
+        return $this;
+    }
+
+    /**
+     * Get departure.
+     *
+     * @return \AppBundle\Entity\Site
+     */
+    public function getDeparture()
+    {
+        return $this->departure;
+    }
+
+    /**
+     * Set arrival.
+     *
+     * @param \AppBundle\Entity\Site $arrival
+     *
+     * @return Flight
+     */
+    public function setArrival(\AppBundle\Entity\Site $arrival)
+    {
+        $this->arrival = $arrival;
+
+        return $this;
+    }
+
+    /**
+     * Get arrival.
+     *
+     * @return \AppBundle\Entity\Site
+     */
+    public function getArrival()
+    {
+        return $this->arrival;
+    }
+
+    /**
+     * Set pilot.
+     *
+     * @param \AppBundle\Entity\User|null $pilot
+     *
+     * @return Flight
+     */
+    public function setPilot(\AppBundle\Entity\User $pilot = null)
+    {
+        $this->pilot = $pilot;
+
+        return $this;
+    }
+
+    /**
+     * Get pilot.
+     *
+     * @return \AppBundle\Entity\User|null
+     */
+    public function getPilot()
+    {
+        return $this->pilot;
+    }
+
+    /**
+     * Set plane.
+     *
+     * @param \AppBundle\Entity\PlaneModel|null $plane
+     *
+     * @return Flight
+     */
+    public function setPlane(\AppBundle\Entity\PlaneModel $plane = null)
+    {
+        $this->plane = $plane;
+
+        return $this;
+    }
+
+    /**
+     * Get plane.
+     *
+     * @return \AppBundle\Entity\PlaneModel|null
+     */
+    public function getPlane()
+    {
+        return $this->plane;
+    }
+
+    /**
+     * Add reservation.
+     *
+     * @param \AppBundle\Entity\Reservation $reservation
+     *
+     * @return Flight
+     */
+    public function addReservation(\AppBundle\Entity\Reservation $reservation)
+    {
+        $this->reservations[] = $reservation;
+
+        return $this;
+    }
+
+    /**
+     * Remove reservation.
+     *
+     * @param \AppBundle\Entity\Reservation $reservation
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeReservation(\AppBundle\Entity\Reservation $reservation)
+    {
+        return $this->reservations->removeElement($reservation);
+    }
+
+    /**
+     * Get reservations.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReservations()
+    {
+        return $this->reservations;
+    }
+}

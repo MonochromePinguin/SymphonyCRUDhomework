@@ -14,6 +14,9 @@ security:
             security: false
 
         main:
+            #● not setting it is deprecated :-)
+            logout_on_user_change: true
+
             anonymous: ~
             # activate different ways to authenticate
 

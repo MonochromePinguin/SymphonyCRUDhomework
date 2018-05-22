@@ -27,6 +27,12 @@ class PlaneModel
     private $id;
 
     /**
+     * @ORM\OneToMany( targetEntity="AppBundle\Entity\Flight", mappedBy="plane")
+     */
+    private $flights;
+
+
+    /**
      * @var string
      *
      * @ORM\Column(name="model", type="string", length=128)
@@ -191,5 +197,53 @@ class PlaneModel
     {
         return $this->isAvailable;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->flights = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add flight.
+     *
+     * @param \AppBundle\Entity\Flight $flight
+     *
+     * @return PlaneModel
+     */
+    public function addFlight(\AppBundle\Entity\Flight $flight)
+    {
+        $this->flights[] = $flight;
+
+        return $this;
+    }
+
+    /**
+     * Remove flight.
+     *
+     * @param \AppBundle\Entity\Flight $flight
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeFlight(\AppBundle\Entity\Flight $flight)
+    {
+        return $this->flights->removeElement($flight);
+    }
+
+    /**
+     * Get flights.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFlights()
+    {
+        return $this->flights;
+    }
+
+    ## CUSTOM FUNCTION ##
+    public function __toString()
+    {
+        return $this->manufacturer . ' ' . $this->model;
+    }
+}
