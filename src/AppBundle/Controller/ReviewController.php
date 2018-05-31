@@ -5,31 +5,30 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Review;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
+#use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ReviewController
  * @package AppBundle\Controller
- *
- * @Route("review")
  */
 class ReviewController extends Controller
 {
     /**
-     * @Route("/", name="review_index")
+     * @Route("/review", name="review_index")
      * @Method({"GET"})
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $reviews = $em->getRepository('Review')->findAll();
+        $reviews = $em->getRepository('AppBundle:Review')->findAll();
 
-        return $this->render('AppBundle:Review:index.html.twig', ['reviews' => $reviews]);
+        return $this->render('review/index.html.twig', ['reviews' => $reviews]);
     }
 
     /**
-     * @Route("/new", name="review_new")
+     * @Route("/review/new", name="review_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
