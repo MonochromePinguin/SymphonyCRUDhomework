@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Flight;
+use AppBundle\Service\FlightInfo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,15 +21,29 @@ class FlightController extends Controller
      *
      * @Route("/", name="flight_index")
      * @Method("GET")
+     * @param FlightInfo $flightInfo
+     * @return float|\Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction(FlightInfo $flightInfo)
     {
         $em = $this->getDoctrine()->getManager();
 
         $flights = $em->getRepository('AppBundle:Flight')->findAll();
 
+        #not asked by the homework: show all distances
+        $distances = [];
+        foreach($flights as $flight) {
+            $distances[] = $flightInfo->getDistance(
+                $flight->getDeparture()->getLatitude(),
+                $flight->getDeparture()->getLongitude(),
+                $flight->getArrival()->getLatitude(),
+                $flight->getArrival()->getLongitude()
+            );
+        }
+
         return $this->render('flight/index.html.twig', array(
             'flights' => $flights,
+            'distances' => $distances
         ));
     }
 
@@ -64,12 +79,18 @@ class FlightController extends Controller
      * @Route("/{id}", name="flight_show")
      * @Method("GET")
      */
-    public function showAction(Flight $flight)
+    public function showAction(Flight $flight, FlightInfo $flightInfo)
     {
         $deleteForm = $this->createDeleteForm($flight);
 
         return $this->render('flight/show.html.twig', array(
             'flight' => $flight,
+            'distance' => $flightInfo->getDistance(
+                $flight->getDeparture()->getLatitude(),
+                $flight->getDeparture()->getLongitude(),
+                $flight->getArrival()->getLatitude(),
+                $flight->getArrival()->getLongitude()
+            ),
             'delete_form' => $deleteForm->createView(),
         ));
     }

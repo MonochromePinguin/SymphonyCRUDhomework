@@ -10,6 +10,7 @@
                 <th>Nbfreeseats</th>
                 <th>Seatprice</th>
                 <th>Takeofftime</th>
+                <th>Distance</th>
                 <th>Publicationtime</th>
                 <th>Description</th>
                 <th>Wasdone</th>
@@ -23,6 +24,7 @@
                 <td>{{ flight.nbFreeSeats }}</td>
                 <td>{{ flight.seatPrice }}</td>
                 <td>{% if flight.takeOffTime %}{{ flight.takeOffTime|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{  distances[loop.index0] | number_format(2, ',', ' ') }} {{ unit }}</td>
                 <td>{% if flight.publicationTime %}{{ flight.publicationTime|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ flight.description }}</td>
                 <td>{% if flight.wasDone %}Yes{% else %}No{% endif %}</td>
