@@ -6,7 +6,6 @@ use AppBundle\Entity\Review;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
-#use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -42,7 +41,7 @@ class ReviewController extends Controller
             $em->persist($review);
             $em->flush();
 
-            return $this->redirectToRoute('flight_show', array('id' => $review->getId()));
+            return $this->redirectToRoute('review_index');
         }
 
         return $this->render('review/new.html.twig', ['review' => $review, 'form' => $form->createView()]);

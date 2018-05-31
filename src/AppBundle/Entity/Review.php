@@ -27,17 +27,11 @@ class Review
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="user_rated_id", type="integer")
      * @ORM\ManyToOne( targetEntity="AppBundle\Entity\User")
      */
     private $userRated;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="review_author_id", type="integer")
      * @ORM\ManyToOne( targetEntity="AppBundle\Entity\User")
      */
     private $reviewAuthor;
@@ -145,5 +139,54 @@ class Review
     public function getNote()
     {
         return $this->note;
+    }
+
+
+    /**
+     * Set userRated.
+     *
+     * @param \AppBundle\Entity\User|null $userRated
+     *
+     * @return Review
+     */
+    public function setUserRated(\AppBundle\Entity\User $userRated = null)
+    {
+        $this->userRated = $userRated;
+
+        return $this;
+    }
+
+    /**
+     * Get userRated.
+     *
+     * @return \AppBundle\Entity\User|null
+     */
+    public function getUserRated()
+    {
+        return $this->userRated;
+    }
+
+    /**
+     * Set reviewAuthor.
+     *
+     * @param \AppBundle\Entity\User|null $reviewAuthor
+     *
+     * @return Review
+     */
+    public function setReviewAuthor(\AppBundle\Entity\User $reviewAuthor = null)
+    {
+        $this->reviewAuthor = $reviewAuthor;
+
+        return $this;
+    }
+
+    /**
+     * Get reviewAuthor.
+     *
+     * @return \AppBundle\Entity\User|null
+     */
+    public function getReviewAuthor()
+    {
+        return $this->reviewAuthor;
     }
 }
