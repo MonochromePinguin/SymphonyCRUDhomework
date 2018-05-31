@@ -200,7 +200,7 @@ class Site
     }
 
     ## CUSTOM FUNCTION ##
-    public function  __toString()
+    public function __toString()
     {
         return $this->name . ' (' . $this->icao . '): ' . $this->latitude . '/' . $this->longitude;
     }

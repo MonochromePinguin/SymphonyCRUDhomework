@@ -46,5 +46,4 @@ class ReviewController extends Controller
 
         return $this->render('review/new.html.twig', ['review' => $review, 'form' => $form->createView()]);
     }
-
 }
