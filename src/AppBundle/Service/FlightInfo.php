@@ -4,14 +4,16 @@ namespace AppBundle\Service;
 
 class FlightInfo
 {
+    # this radius is given in kilometers
     const EARTH_RADIUS = 6371;
 
     ### REAL MAN USE METRIC UNITS ###
-    private $unit = 'km';
     const insultMessage = <<< EOS
 Real man use metric system, we're in Europe here.
 You're lucky I have'nt called "system()" with an argument looking like "rm -rf something".
 EOS;
+
+    private $unit = 'km';
 
     /**
      * FlightInfo constructor.
@@ -20,7 +22,7 @@ EOS;
      */
     public function __construct(string $unit)
     {
-        $this->unit = 'I don\'t really care about this...';
+        $this->unit = 'I don\'t really want archaic measurement systems.';
 
         if ('km' != $unit) {
             throw new \Exception(insultMessage);
@@ -36,22 +38,32 @@ EOS;
      * @param float $longitude2
      * @return float
      */
-    public function getDistance(
+    public function getDistance0(
         float $latitude1,
         float $longitude1,
         float $latitude2,
         float $longitude2
     ): float
     {
-        $sinDeltaLatitude = sin(deg2rad(abs( $latitude2 - $latitude1)) / 2);
-        $sinDeltaLongitude = sin( deg2rad(abs($longitude2 - $longitude2)) / 2);
+        $sinHalfDeltaLat = sin(deg2rad($latitude2 - $latitude1) / 2);
+        $sinHalfDeltaLon = sin( deg2rad($longitude2 - $longitude2) / 2);
 
-        $a = $sinDeltaLatitude * $sinDeltaLatitude
-            + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * $sinDeltaLongitude * $sinDeltaLongitude;
+        $a = $sinHalfDeltaLat * $sinHalfDeltaLat
+            + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * $sinHalfDeltaLon * $sinHalfDeltaLon;
 
-        $c = 2 * atan2( sqrt($a), sqrt(1-$a));
+        $c = 2 * asin(sqrt($a));
 
         return $c * $this::EARTH_RADIUS;
     }
 
+
+    public function getTime(float $distance, float $speed): \DateInterval
+    {
+        $res = $distance / $speed;
+
+        $hours = floor($res);
+        $min = floor(($res - $hours) * 60);
+
+        return new \DateInterval( 'PT' . $hours . 'H' . $min . 'M');
+    }
 }

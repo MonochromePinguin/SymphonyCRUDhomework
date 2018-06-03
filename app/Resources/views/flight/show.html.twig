@@ -26,6 +26,10 @@
                 <td>{{ distance | number_format(2, ',', ' ') }} {{ unit }}</td>
             </tr>
             <tr>
+                <th>Durée</th>
+                <td>{{ time | date('%Hh%im') }}</td>
+            </tr>
+            <tr>
                 <th>Publicationtime</th>
                 <td>{% if flight.publicationTime %}{{ flight.publicationTime|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>

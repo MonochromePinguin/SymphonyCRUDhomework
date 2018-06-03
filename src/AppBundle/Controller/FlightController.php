@@ -32,18 +32,27 @@ class FlightController extends Controller
 
         #not asked by the homework: show all distances
         $distances = [];
+        $times = [];
+
         foreach($flights as $flight) {
-            $distances[] = $flightInfo->getDistance(
+            $distance = $flightInfo->getDistance(
                 $flight->getDeparture()->getLatitude(),
                 $flight->getDeparture()->getLongitude(),
                 $flight->getArrival()->getLatitude(),
                 $flight->getArrival()->getLongitude()
             );
+
+            $distances[] = $distance;
+            $times[] = $flightInfo->getTime(
+                $distance,
+                $flight->getPlane()->getCruiseSpeed()
+            );
         }
 
         return $this->render('flight/index.html.twig', array(
             'flights' => $flights,
-            'distances' => $distances
+            'distances' => $distances,
+            'times' => $times
         ));
     }
 
@@ -83,14 +92,17 @@ class FlightController extends Controller
     {
         $deleteForm = $this->createDeleteForm($flight);
 
+        $distance =  $flightInfo->getDistance(
+            $flight->getDeparture()->getLatitude(),
+            $flight->getDeparture()->getLongitude(),
+            $flight->getArrival()->getLatitude(),
+            $flight->getArrival()->getLongitude()
+        );
+
         return $this->render('flight/show.html.twig', array(
             'flight' => $flight,
-            'distance' => $flightInfo->getDistance(
-                $flight->getDeparture()->getLatitude(),
-                $flight->getDeparture()->getLongitude(),
-                $flight->getArrival()->getLatitude(),
-                $flight->getArrival()->getLongitude()
-            ),
+            'distance' => $distance,
+            'time' => $flightInfo->getTime($distance, $flight->getPlane()->getCruiseSpeed()),
             'delete_form' => $deleteForm->createView(),
         ));
     }
