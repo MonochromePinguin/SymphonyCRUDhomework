@@ -43,10 +43,9 @@ EOS;
         float $longitude1,
         float $latitude2,
         float $longitude2
-    ): float
-    {
+    ): float {
         $sinHalfDeltaLat = sin(deg2rad($latitude2 - $latitude1) / 2);
-        $sinHalfDeltaLon = sin( deg2rad($longitude2 - $longitude2) / 2);
+        $sinHalfDeltaLon = sin(deg2rad($longitude2 - $longitude2) / 2);
 
         $a = $sinHalfDeltaLat * $sinHalfDeltaLat
             + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * $sinHalfDeltaLon * $sinHalfDeltaLon;
@@ -64,6 +63,6 @@ EOS;
         $hours = floor($res);
         $min = floor(($res - $hours) * 60);
 
-        return new \DateInterval( 'PT' . $hours . 'H' . $min . 'M');
+        return new \DateInterval('PT' . $hours . 'H' . $min . 'M');
     }
 }

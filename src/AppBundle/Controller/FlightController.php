@@ -34,7 +34,7 @@ class FlightController extends Controller
         $distances = [];
         $times = [];
 
-        foreach($flights as $flight) {
+        foreach ($flights as $flight) {
             $distance = $flightInfo->getDistance(
                 $flight->getDeparture()->getLatitude(),
                 $flight->getDeparture()->getLongitude(),
