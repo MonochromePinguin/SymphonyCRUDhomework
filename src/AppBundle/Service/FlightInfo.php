@@ -38,14 +38,14 @@ EOS;
      * @param float $longitude2
      * @return float
      */
-    public function getDistance0(
+    public function getDistance(
         float $latitude1,
         float $longitude1,
         float $latitude2,
         float $longitude2
     ): float {
         $sinHalfDeltaLat = sin(deg2rad($latitude2 - $latitude1) / 2);
-        $sinHalfDeltaLon = sin(deg2rad($longitude2 - $longitude2) / 2);
+        $sinHalfDeltaLon = sin(deg2rad($longitude2 - $longitude1) / 2);
 
         $a = $sinHalfDeltaLat * $sinHalfDeltaLat
             + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * $sinHalfDeltaLon * $sinHalfDeltaLon;
