@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Avis utilisateurs</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Utilisateur noté</th>
+                <td>{{ review.userRated }}</td>
+            </tr>
+            <tr>
+                <th>Écrit par</th>
+                <td>{{ review.reviewAuthor }}</td>
+            </tr>
+            <tr>
+                <th>le</th>
+                <td>{{ review.publicationDate | date("d/m/Y H\\hi\\ms") }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ review.note }}</td>
+            </tr>
+            <tr>
+                <th>Avis</th>
+                <td>{{ review.text }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('review_index') }}">Liste des avis</a>
+        </li>
+
+        <li>
+            <a href="{{ path('review_edit', { 'id': review.id }) }}">Éditer l'avis</a>
+        </li>
+
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Supprimer">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

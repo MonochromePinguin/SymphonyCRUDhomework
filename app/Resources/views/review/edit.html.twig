@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Éditer un avis</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="Enregistrer" />
+    {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('review_index') }}">Revenir à la liste d'avis</a>
+        </li>
+
+        <li>
+            <a href="{{ path('review_show', { 'id': review.id } ) }}">Annuler l'édition</a>
+        </li>
+
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Supprimer l'avis">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
