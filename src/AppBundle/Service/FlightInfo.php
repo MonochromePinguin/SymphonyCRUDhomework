@@ -8,7 +8,7 @@ class FlightInfo
     const EARTH_RADIUS = 6371;
 
     ### REAL MAN USE METRIC UNITS ###
-    const insultMessage = <<< EOS
+    const INSULT_MESSAGE = <<< EOS
 Real man use metric system, we're in Europe here.
 You're lucky I have'nt called "system()" with an argument looking like "rm -rf something".
 EOS;
@@ -25,7 +25,7 @@ EOS;
         $this->unit = 'I don\'t really want archaic measurement systems.';
 
         if ('km' != $unit) {
-            throw new \Exception(insultMessage);
+            throw new \Exception(INSULT_MESSAGE);
         }
     }
 
