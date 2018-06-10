@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Review
@@ -28,11 +29,17 @@ class Review
 
     /**
      * @ORM\ManyToOne( targetEntity="AppBundle\Entity\User")
+     * @Assert\NotBlank(
+     *     message = "Ce champs doit faire référence à un utilisateur"
+     * )
      */
     private $userRated;
 
     /**
      * @ORM\ManyToOne( targetEntity="AppBundle\Entity\User")
+     * @Assert\NotBlank(
+     *     message = "Ce champs doit faire référence à un utilisateur"
+     * )
      */
     private $reviewAuthor;
 
@@ -40,6 +47,9 @@ class Review
      * @var string
      *
      * @ORM\Column(name="text", type="text")
+     * @Assert\NotBlank(
+     *     message = "Ce champs doit contenir du texte"
+     * )
      */
     private $text;
 
@@ -47,16 +57,29 @@ class Review
      * @var \DateTime
      *
      * @ORM\Column(name="publicationDate", type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\Type(type = "DateTime")
      */
     private $publicationDate;
+
 
     /**
      * @var int
      *
      * @ORM\Column(name="note", type="smallint")
+     * @Assert\NotBlank(message="Prière d'aller remuer la salade")
+     * @Assert\Type(
+     *     type = "integer",
+     *     message = "Ce champ doit être un nombre entier entre 0 et 5 inclus"
+     * )
+     * @Assert\Range(
+     *     min = 0, max = 5,
+     *     minMessage = "Ce champ doit être un nombre entier entre 0 et 5 inclus",
+     *     maxMessage = "Ce champ doit être un nombre entier entre 0 et 5 inclus",
+     *     invalidMessage = "Ce champ doit être un nombre entier entre 0 et 5 inclus"
+     * )
      */
     private $note;
-
 
     /**
      * Get id.
@@ -83,6 +106,7 @@ class Review
         return $this;
     }
 
+
     /**
      * Get text.
      *
@@ -92,7 +116,6 @@ class Review
     {
         return $this->text;
     }
-
     /**
      * Set publicationDate.
      *

@@ -4,6 +4,8 @@
     <h1>Nouvel avis</h1>
 
     {{ form_start(form) }}
+    {% use this instruction for testing server-side validation:
+        form_start(form, { 'attr': {novalidate: 'novalidate'} }) %}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
